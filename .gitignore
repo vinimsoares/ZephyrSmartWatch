@@ -1,0 +1,25 @@
+# Zephyr / west build artifacts
+build/
+build-*/
+*.uf2
+*.hex
+*.bin
+*.elf
+*.map
+
+# west workspace metadata
+.west/
+zephyr/
+modules/
+bootloader/
+tools/
+nrf/
+
+.vscode/
+*.code-workspace
+.idea/
+
+.dist/
+
+.venv/
+venv/
