@@ -2,8 +2,9 @@
 
 ## Build
 This project was designed around the xiao nrf52840 sense board and building reflects that. It can be built using:  
+
 ```
-west build -p always -b xiao_ble/nrf52840/sense
+west build -p always -b xiao_ble/nrf52840/sense -s .
 ```
 
 ## Flashing
@@ -19,5 +20,5 @@ west flash -r uf2
 
 ## Author & Contact
 Vinicius Malaman Soares  
-Computer Engineer @ Iowa State University  
+Computer Engineer Student @ Iowa State University  
 vinicius.malaman12@gmail.com
