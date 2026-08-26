@@ -21,5 +21,7 @@ nrf/
 
 .dist/
 
+CLAUDE.md
+
 .venv/
 venv/

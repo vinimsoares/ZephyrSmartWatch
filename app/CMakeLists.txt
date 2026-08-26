@@ -6,4 +6,5 @@ project(ZephyrSmartWatch)
 
 target_sources(app PRIVATE
  src/main.c
- src/display/display.c)
+ src/display/display.c
+ src/touch/touch.c)

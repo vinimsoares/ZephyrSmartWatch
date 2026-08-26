@@ -1,52 +1,48 @@
 #include <zephyr/dt-bindings/mipi_dbi/mipi_dbi.h>
 #include <zephyr/dt-bindings/display/panel.h>
+#include <zephyr/dt-bindings/i2c/i2c.h>
 
-&pinctrl { // the & indicates it references an existing node in the device tree
-    spi2_default: spi2_default { // the first part is the label, the second part is the node name. You reference a label.
-        group1 { //pin groups are used to group pins with similar characteristics.
-            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>, //NRF_PSEL is a macro that maps peripheral signals to pin numbers.
-                    <NRF_PSEL(SPIM_MOSI, 1, 15)>;//Arguments are: peripheral signal, peripheral instance, pin number in this case SPIM_MOSI is the MOSI signal for SPIM on GPIO port 1 pin 15
-        };
-    };
-   spi2_sleep: spi2_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
-                    <NRF_PSEL(SPIM_MOSI, 1, 15)>;
-            low-power-enable;
-        };
-    };
+/{
+	chosen {// the chosen node is used to specify devices for drivers
+		//it wont run without this node
+        	zephyr,display = &gc9a01;
+
 };
-
-/ {
-    chosen {// the chosen node is used to specify devices for drivers
-	//it wont run without this node
-        zephyr,display = &gc9a01;
-    };
 };
 &spi2 {
-    status = "okay"; //spi2 is set to disabled by default
-    pinctrl-0 = <&spi2_default>; //this links the pinctrl-0, default mode, to the spi2_default pin group defined above
-    pinctrl-1 = <&spi2_sleep>;
-    pinctrl-names = "default", "sleep"; //array of pinctrl names
-    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>; //CS pin GPIO port 0 pin 29, active low
+	status = "okay"; //spi2 is set to disabled by default
+	pinctrl-0 = <&spi2_default>; //this links the pinctrl-0, default mode, to the spi2_default pin group defined above
+	pinctrl-1 = <&spi2_sleep>;
+	pinctrl-names = "default", "sleep"; //array of pinctrl names
+	cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>; //CS pin GPIO port 0 pin 29, active low
 
-    mipi_dbi_gc9a01: mipi-dbi-spi {
-        compatible = "zephyr,mipi-dbi-spi"; //this is the compatible string for the mipi-dbi-spi driver
-        spi-dev = <&spi2>;
-        dc-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>;
-        reset-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
-        #address-cells = <1>;
-        #size-cells = <0>;
 
-	 gc9a01: gc9a01@0 {// the @0 indicates the reg property is 0, which is the SPI chip select number
-            compatible = "galaxycore,gc9x01x";
-            reg = <0>;
-            status = "okay";
-            mipi-max-frequency = <20000000>;
-            pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
-            width = <240>;
-            height = <240>;
+	mipi_dbi_gc9a01: mipi-dbi-spi {
+       		compatible = "zephyr,mipi-dbi-spi"; //this is the compatible string for the mipi-dbi-spi driver
+        	spi-dev = <&spi2>;
+		dc-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>;
+        	reset-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+        	#address-cells = <1>;
+        	#size-cells = <0>;
+
+		gc9a01: gc9a01@0 {// the @0 indicates the reg property is 0, which is the SPI chip select number
+        	compatible = "galaxycore,gc9x01x";
+        	reg = <0>;
+        	status = "okay";
+        	mipi-max-frequency = <20000000>;
+        	pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
+        	width = <240>;
+        	height = <240>;
         };
-    };
+};
+};
+
+
+&i2c1 {
+	cst816d: cst816d@15 {
+        	compatible = "hynitron,cst8xx";
+        	reg = <0x15>;//data sheet I2C address is 0x15
+        	irq-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
+	};
 };
 
