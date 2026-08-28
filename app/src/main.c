@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
+#include <zephyr/devicetree.h>
 #include <zephyr/drivers/display.h>
 #include <lvgl.h>
 #include "display/display.h"
@@ -12,6 +13,7 @@
 
 
 int main(void){
+
 
 	int ret = display_init();
 	if (ret < 0) {
