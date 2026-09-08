@@ -9,6 +9,7 @@
 #include <lvgl.h>
 #include "display/display.h"
 #include "touch/touch.h"
+#include "screens/screen_manager.h"
 
 
 
@@ -27,8 +28,9 @@ int main(void){
         return ret;
     }
 
+	screen_manager_init();
 
-	while (1) { 
+	while (1) {
 		lv_timer_handler();//call the lvgl handler to update the screen
 		k_sleep(K_MSEC(5));
 	}

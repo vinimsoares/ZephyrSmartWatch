@@ -8,6 +8,11 @@
         zephyr,display = &gc9a01;
 
 };
+
+	lvgl_pointer: lvgl_pointer {
+		compatible = "zephyr,lvgl-pointer-input";
+		input = <&cst816d>;
+	};
 };
 &spi2 {
 	status = "okay"; //spi2 is set to disabled by default
@@ -29,7 +34,7 @@
         	compatible = "galaxycore,gc9x01x";
         	reg = <0>;
         	status = "okay";
-        	mipi-max-frequency = <20000000>;
+        	mipi-max-frequency = <32000000>;
         	pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
         	width = <240>;
         	height = <240>;
